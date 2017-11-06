@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+import java.util.SortedSet;
 
 public class ACM {
 
@@ -8,12 +10,13 @@ public class ACM {
 		String ct = "TEBTGFKRZQMLRAIZSZQHJMNWWIPMALNBLTCYLCYKGMDULAPNWUHJOIQVIVQSEGHAMGGXRUIXJXISECDHRMYMHRBRSHRLVRFALQWHCFOKGGILWJHPYTSPTUMMNTEWTDHO";
 		acm.attempt(ct, "YAK");
 		
-		ct = "MOGRVQOQRIKEGSRKNVYFKHBXCVHBXMLHOYGFHRGXLXEQLTMJOQXDLGWOCOPOTURZWANAALCHRFHTDRLPESXRHFFEQGVBPDKTGVCPCLDGOADYPTEEVGSKTVVECCVFXEBROUBXEXPXFRFKHRWOIKTUCPFWXZXCQWLWBFJEKIZJLLGWVWUOQWSJUWFJWWLEGWSUMODCKBALWPYLGPIIJBBCFHECGNIOXUXUHLVETNVTNFTNLAAVPQFHRVPOBEQICMXPEPYOLDPAEQZSFHIVDAUAMFPSKJLHVDVEGCARPIOJBMBDPBTKWKINSMAHEJNGFMTJORBMBAUEEKYHOMSJSLIDYVTNAUPSIPHUTAZGNVCFPRJBGTWTRQFTBTBBBYFLRHBQHVOSEDFIXENSPHBWOAGQUWFDIOLYBXWTQJUYPXWPTXRLSIAMFAAMZXJSFMEXJSZLWWPWNWTHIJESXRSZHHEVLPEMHJHHOLEISDBRKDEVGVLPTZWFINGNLMPVVZZGUBZX";
-		acm.attempt(ct);
+		
+		String ct2 = "XBEBIIUGPZPCGPMDYWZWGQGGMWQYALGZURRQFWTOLHGQEKDJOHPDFRJFCFVLSOYQXYDNZLVKOCHQAKXPTMQZYZNNWBFNAJPVLAJPVQHZOEBTIRNOQCWUDTVTJWAVOCCOOYVKAALBAINWHMQLBSJRMFXSZFFWHSRFGHYVRPFLDXFJPRHDPAQCGMHSZWCRSTWITKMNGNLHXSNLDRFFKAVNFNHSAUKHLOLWHDHPKLEDLAHFALJRUPPOSQAHNCJHUEAMFKWTOCEWUIAELHBXESEULDEIYOEHZPNMFKWVHVKWFPKYXTIBLULEIWPQITJIYFRZHSBMWHZDFOFBQKLZKNRWMDUEEFBNOXYYPZIBMNHIBGSHKRFUSVOHKCJHIWPUZSSEFUVRYJFPODRUMPXERJNHZCIKGUABFWFKCUTNVIIJNEUKAHBLWDSIMWBMBFWIVUSEJVACOPZUMJOKFPKRTRPKYEECEUXYIVRBNLOSCXOPCXGLCDOTFSRLQFIPTTYWVTZN";
+		acm.attempt(ct2, "TYWIN");
 	}
 	
-	private void attempt(String ct, String startKey) {
-		
+	private String attempt(String ct, String startKey) {
+
 		int k = ct.length();
 		String key = startKey;
 		String newKey = "";
@@ -33,14 +36,43 @@ public class ACM {
 			}
 			key = newKey;
 		}
-		if (Util.avgFrequency(pt) < 0.5)System.out.println(pt);
+		
+		double d = Util.avgFrequency(pt);
+		//System.out.println(Util.avgFrequency(pt) + "  ->  ");
+		if (d < 0.6){
+			System.out.println(startKey + ">   " + pt);
+		}
+		return startKey + "=" + d + "=" + pt;
 	}
 
 	private void attempt(String ct) {
-		for (int i = 1; i < 5; i++){
-			for (String key : Util.permute(i))
-			attempt(ct, key);
+
+		System.out.println("Begin attempt");
+		
+		ArrayList<String> out = new ArrayList<String>();
+		
+	
+		
+		for (int i = 5; i < 6; i++){
+			SortedSet<String> keys = Util.permute(i);
+			System.out.print("Created keys of size " + i);
+			for (String key : keys){
+				
+				//System.out.println("Attempt: " + key + " | ");
+				String s = attempt(ct, key);
+				
+				double d = Double.parseDouble(s.split("=")[1]);
+				
+				if (d < 0.4){
+					out.add(s);
+				}
+			}
 		}
+		
+		for (String pt : out){
+			System.out.println(pt.split("=")[0] + " "+pt.split("=")[1]+" " + pt.split("=")[2]);
+		}
+		
 	}
 	
 }

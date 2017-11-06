@@ -1,11 +1,22 @@
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
 public class Util {
 	
-	public static String[] letters = {"A", "B", "B", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"};
+	
+	static SortedSet<String> words = new TreeSet<String>();
+	
+	public static void main (String[] args){
+		SortedSet<String> a = permute(4);
+		for (String s : a){
+			System.out.println(s);
+		}
+	}
+	
+	public static String[] letters = {"A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"};
 	
 	public static final Map<String, Double> fq = initfq();
 	private static Map<String, Double> initfq(){
@@ -46,27 +57,26 @@ public class Util {
 		return -1;
 	}
 	
-	public static ArrayList<String> permute(String[] alphabet, int k) {
-		
-		ArrayList<String> a = new ArrayList<String>();
-		
-	    int permutationNumber = (int) Math.pow(alphabet.length, k);
-	    for (int i = 0; i < permutationNumber; i++) {
-	    	String s = "";
-	       for (int j = 0; j < k; j++) {
-	          s += (alphabet[(i + (j * i / alphabet.length)) % alphabet.length]);
-	       }
-	       a.add(s);
-	    }
-	    
-	    return a;
-	 }
-
-
-	public static ArrayList<String> permute(int i) {
-		return permute(letters, i);
+	static SortedSet<String> permute(int k) {
+		possibleStrings (k, letters, "");
+        return words;
 	}
-	
+
+	public static void possibleStrings(int maxLength, String[] alphabet, String curr) {
+		
+		if (curr.length() == maxLength) {
+			words.add(curr);
+
+		} else {
+			for (int i = 0; i < alphabet.length; i++) {
+				String oldCurr = curr;
+				curr += alphabet[i];
+				possibleStrings(maxLength, alphabet, curr);
+				curr = oldCurr;
+			}
+		}
+	}
+
 	public static double avgFrequency(String ct){
 		
 		double total = 0.0;
