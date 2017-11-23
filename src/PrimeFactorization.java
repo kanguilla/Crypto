@@ -30,6 +30,7 @@ public class PrimeFactorization {
 
     public static void factor(BigInteger N) {
         if (N.compareTo(ONE) == 0) return;
+        if (N.isProbablePrime(20)) { System.out.println(N); return; }
         BigInteger divisor = prho(N);
         factor(divisor);
         factor(N.divide(divisor));
