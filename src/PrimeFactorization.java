@@ -30,15 +30,25 @@ public class PrimeFactorization {
 
     public static void factor(BigInteger N) {
         if (N.compareTo(ONE) == 0) return;
-        if (N.isProbablePrime(20)) { System.out.println(N); return; }
+        if (N.isProbablePrime(100)) { System.out.println(N); return; }
         BigInteger divisor = prho(N);
         factor(divisor);
         factor(N.divide(divisor));
     }
 
+    public static void totient(BigInteger A, BigInteger B) {
+    	
+    	BigInteger N = A.multiply(B);
+    	BigInteger phi = N.subtract(A).add(B).add(ONE);
+    	System.out.println(phi);
+    }
+    
+
  
     public static void main(String[] args) {
         BigInteger N = new BigInteger("13029506445953503759481");
         factor(N);
+        totient(new BigInteger("119298960679"), new BigInteger("109217267039"));
+        System.out.println(new BigInteger("9292162750094637473537").modInverse(new BigInteger("13029506445943422065842")));
     }
 }

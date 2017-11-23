@@ -43,4 +43,10 @@ public class ElGamal {
         System.out.println("Alice decodes: " + ad);
 
     }
+    
+    public void testCongruence() {
+    	
+    }
+    
+    
 }
