@@ -1,51 +1,23 @@
 import java.math.*;
-import java.util.*;
-import java.security.*;
-import java.io.*;
 
 public class ElGamal {
 	
-    public static void main(String[] args) throws IOException {
-        BigInteger p, b, c, secretKey;
-        Random sc = new SecureRandom();
-        secretKey = new BigInteger("12345678901234567890");
-        //
-        // public key calculation
-        //
-        System.out.println("secretKey = " + secretKey);
-        p = BigInteger.probablePrime(64, sc);
-        b = new BigInteger("3");
-        c = b.modPow(secretKey, p);
-        System.out.println("p = " + p);
-        System.out.println("b = " + b);
-        System.out.println("c = " + c);
-        //
-        // Encryption
-        //
-        System.out.print("Enter your Big Number message -->");
-        String s = "11231241293877333";
-        BigInteger m = new BigInteger(s);
-        BigInteger r = new BigInteger(64, sc);
-        BigInteger EC = m.multiply(c.modPow(r, p)).mod(p);
-        BigInteger brmodp = b.modPow(r, p);
-        System.out.println("Plaintext = " + m);
-        System.out.println("r = " + r);
-        System.out.println("EC = " + EC);
-        System.out.println("b^r mod p = " + brmodp);
-        //
-        // Decryption
-        //
-        BigInteger crmodp = brmodp.modPow(secretKey, p);
-        BigInteger d = crmodp.modInverse(p);
-        BigInteger ad = d.multiply(EC).mod(p);
-        System.out.println("\n\nc^r mod p = " + crmodp);
-        System.out.println("d = " + d);
-        System.out.println("Alice decodes: " + ad);
-
+    public static void main(String[] args) {
+    	verifySignature(65537, 3, 25733, 42679, 17036, 8676);
     }
     
-    public void testCongruence() {
+    public static boolean verifySignature(int p, int g, int y, int r, int s, int m) {
+    	if (r < 0 || r > p)return false;
+    	if (s < 0 || s > p-1)return false;
+    	BigInteger gh = (BigInteger.valueOf(g).modPow(
+    			BigInteger.valueOf(m),BigInteger.valueOf(p)));
+    	BigInteger yr = (BigInteger.valueOf(y).modPow(
+    			BigInteger.valueOf(r),BigInteger.valueOf(p)));
+    	BigInteger rs = (BigInteger.valueOf(r).modPow(
+    			BigInteger.valueOf(s),BigInteger.valueOf(p)));
     	
+    	System.out.println(gh + " = " + yr.multiply(rs).mod(BigInteger.valueOf(p)));
+    	return false;
     }
     
     
